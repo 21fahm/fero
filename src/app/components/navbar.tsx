@@ -74,8 +74,8 @@ const MobileMenu: React.FC<{ menuOpen: boolean }> = ({ menuOpen }) => {
     >
       <div className="flex items-center justify-between px-4 pb-4">
         <div className="flex items-center gap-4">
-          <TextLink text="Developer" />
-          <TextLink text="Pricing" />
+          <TextLink text="FAQ" destination="../FAQ" />
+          <TextLink text="Contact" destination="../contact" />
         </div>
       </div>
     </motion.div>
@@ -89,10 +89,13 @@ const Links: React.FC = () => (
   </div>
 );
 
-const TextLink: React.FC<{ text: string }> = ({ text }) => {
+const TextLink: React.FC<{ text: string; destination: string }> = ({
+  text,
+  destination,
+}) => {
   return (
     <a
-      href="#"
+      href={destination}
       onClick={() => {}}
       className="text-white/90 transition-colors hover:text-white"
     >
