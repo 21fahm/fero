@@ -74,6 +74,9 @@ const MobileMenu: React.FC<{ menuOpen: boolean }> = ({ menuOpen }) => {
     >
       <div className="flex items-center justify-between px-4 pb-4">
         <div className="flex items-center gap-4">
+          <TextLink text="Store" destination="" />
+          <TextLink text="Developers" destination="" />
+          <TextLink text="Pricing" destination="" />
           <TextLink text="FAQ" destination="../FAQ" />
           <TextLink text="Contact" destination="../contact" />
         </div>
@@ -84,8 +87,9 @@ const MobileMenu: React.FC<{ menuOpen: boolean }> = ({ menuOpen }) => {
 
 const Links: React.FC = () => (
   <div className="hidden items-center gap-2 md:flex">
-    {/* <GlassLink text="Developer" destination="../developers" /> */}
-    {/* <GlassLink text="Pricing" destination="../pricing" /> */}
+    <GlassLink text="Store" destination="" />
+    <GlassLink text="Developers" destination="" />
+    <GlassLink text="Pricing" destination="" />
   </div>
 );
 
@@ -110,87 +114,9 @@ const Logo: React.FC = () => (
   </span>
 );
 
-type NotificationType = {
-  id: number;
-  text: string;
-};
-
-const NOTIFICATION_TTL = 5000;
-
-const Notification = ({
-  text,
-  id,
-  removeNotif,
-}: NotificationType & { removeNotif: Function }) => {
-  useEffect(() => {
-    const timeoutRef = setTimeout(() => {
-      removeNotif(id);
-    }, NOTIFICATION_TTL);
-
-    return () => clearTimeout(timeoutRef);
-  }, []);
-
-  return (
-    <motion.div
-      layout
-      initial={{ y: -15, scale: 0.95 }}
-      animate={{ y: 0, scale: 1 }}
-      exit={{ x: "100%", opacity: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="p-2 flex items-start rounded gap-2 text-xs font-medium shadow-lg text-white bg-indigo-500 pointer-events-auto"
-    >
-      <FiCheckSquare className=" mt-0.5" />
-      <span>{text}</span>
-      <button onClick={() => removeNotif(id)} className="ml-auto mt-0.5">
-        <FiX />
-      </button>
-    </motion.div>
-  );
-};
-
-const generateRandomNotif = (): NotificationType => {
-  let names = [
-    "App launch pending",
-    "Preparing for app deployment",
-    "Counting down to release",
-    "App launch imminent",
-    "App launch in progress",
-    "Ready to deploy app",
-    "Anticipating app release",
-    "Deploying app",
-    "Final app checks underway",
-    "App deployment in progress",
-    "T-minus 10 seconds to launch",
-    "Standing by for app release",
-    "All systems ready for launch",
-    "App deployment complete",
-    "Awaiting app approval",
-    "App not yet launched",
-    "Hold for further instructions",
-    "Launch delayed",
-    "Awaiting clearance for app release",
-    "Preparing for app rollout",
-  ];
-
-  const randomIndex = Math.floor(Math.random() * names.length);
-
-  const data: NotificationType = {
-    id: Math.random(),
-    text: `${names[randomIndex]}`,
-  };
-
-  return data;
-};
-
 const Buttons: React.FC<{
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setMenuOpen }) => {
-  const [notifications, setNotifications] = useState<NotificationType[]>([]);
-
-  const removeNotif = (id: number) => {
-    setNotifications((pv) => pv.filter((n) => n.id !== id));
-  };
-
   return (
     <div className="flex items-center gap-4">
       <div className="hidden items-center gap-2 md:flex">
@@ -198,21 +124,10 @@ const Buttons: React.FC<{
         <GlassLink text="Contact" destination="../contact" />
       </div>
 
-      <button
-        onClick={() => {
-          setNotifications((pv) => [generateRandomNotif(), ...pv]);
-        }}
-        className="relative scale-100 overflow-hidden rounded-lg bg-gradient-to-br from-green-600 from-40% to-green-400 px-4 py-2 font-medium text-white transition-transform hover:scale-105 active:scale-95"
-      >
+      <button className="relative scale-100 overflow-hidden rounded-lg bg-gradient-to-br from-green-600 from-40% to-green-400 px-4 py-2 font-medium text-white transition-transform hover:scale-105 active:scale-95">
         Explore
       </button>
-      <div className="flex flex-col gap-1 w-72 fixed top-2 right-2 z-50 pointer-events-none">
-        <AnimatePresence>
-          {notifications.map((n) => (
-            <Notification removeNotif={removeNotif} {...n} key={n.id} />
-          ))}
-        </AnimatePresence>
-      </div>
+
       <button
         onClick={() => setMenuOpen((pv) => !pv)}
         className="ml-2 block scale-100 text-3xl text-white/90 transition-all hover:scale-105 hover:text-white active:scale-95 md:hidden"

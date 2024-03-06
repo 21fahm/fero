@@ -1,4 +1,4 @@
-import FuzzyOverlayExample from "./components/hero";
+import Hero from "./components/hero";
 import GlassNavigation from "./components/navbar";
 import CollapseCardFeatures from "./components/slide";
 import SwapColumnFeatures from "./components/column";
@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div className="bg-white" id="home">
       <GlassNavigation />
-      <FuzzyOverlayExample />
+      <Hero />
       <CollapseCardFeatures />
       <SwapColumnFeatures />
       <DoubleScrollingLogos />

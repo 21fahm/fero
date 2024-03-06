@@ -1,8 +1,6 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { Dispatch, SetStateAction } from "react";
-import { FiCheck } from "react-icons/fi";
+import { FormEvent, useCallback, useState } from "react";
 
 interface FormProps {
   selected: string;
@@ -23,10 +21,33 @@ const ShiftingContactForm: React.FC = () => {
 };
 
 const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const submit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target as HTMLFormElement);
+      const name = formData.get("name");
+      const message = formData.get("message");
+      const company = formData.get("company");
+
+      const email = `Hi!\n\nMy name is ${name}${
+        selected === "company"
+          ? ` and I represent a company by the name ${company}`
+          : ""
+      }. I would love to inquire the following:\n\n${message}\n\nThank you!`;
+
+      const a = document.createElement("a");
+      a.href = `mailto:shakespay@shakesco.com?subject=${encodeURIComponent(
+        `General Inquiry from ${name}`
+      )}&body=${encodeURIComponent(email)}`;
+      a.click();
+    },
+    [selected]
+  );
+
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={submit}
       className={`p-8 w-full text-white transition-colors duration-[750ms] ${
         selected === "company" ? "bg-indigo-600" : "bg-green-600"
       }`}
@@ -36,6 +57,7 @@ const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
       <div className="mb-6">
         <p className="text-2xl mb-2">Hi 😊 ! My name is...</p>
         <input
+          name="name"
           type="text"
           placeholder="Your name..."
           className={`${
@@ -73,6 +95,7 @@ const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
           >
             <p className="text-2xl mb-2">by the name of...</p>
             <input
+              name="company"
               type="text"
               placeholder="Your company name..."
               className={`${
@@ -84,8 +107,9 @@ const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
       </AnimatePresence>
       {/* Info */}
       <div className="mb-6">
-        <p className="text-2xl mb-2">I'd love to ask about...</p>
+        <p className="text-2xl mb-2">I&apos;d love to ask about...</p>
         <textarea
+          name="message"
           placeholder="Whatever your heart desires :)"
           className={`${
             selected === "company" ? "bg-indigo-700" : "bg-green-700"
@@ -101,7 +125,6 @@ const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
           scale: 0.99,
         }}
         type="submit"
-        onClick={() => setIsOpen(true)}
         className={`${
           selected === "company"
             ? "bg-white text-indigo-600"
@@ -110,62 +133,7 @@ const Form: React.FC<FormProps> = ({ selected, setSelected }) => {
       >
         Submit
       </motion.button>
-      <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </form>
-  );
-};
-
-const SpringModal = ({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}) => {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
-        >
-          <motion.div
-            initial={{ scale: 0, rotate: "12.5deg" }}
-            animate={{ scale: 1, rotate: "0deg" }}
-            exit={{ scale: 0, rotate: "0deg" }}
-            onClick={(e) => e.stopPropagation()}
-            className="bg-gradient-to-br from-green-600 to-white-600 text-white p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
-          >
-            <FiCheck className="text-white/10 rotate-12 text-[250px] absolute z-0 -top-24 -left-24" />
-            <div className="relative z-10">
-              <div className="bg-white w-16 h-16 mb-2 rounded-full text-3xl text-green-600 grid place-items-center mx-auto">
-                <FiCheck />
-              </div>
-              <h3 className="text-3xl font-bold text-center mb-2">
-                Thank you for reaching out!
-              </h3>
-              <p className="text-center mb-6">
-                We will review your message shortly. If any contact information
-                was given we will reach out soon😁
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="bg-white hover:opacity-90 transition-opacity text-green-600 font-semibold w-full py-2 rounded"
-                >
-                  Understood!
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
   );
 };
 
@@ -178,6 +146,7 @@ const FormSelect: React.FC<FormSelectProps> = ({ selected, setSelected }) => {
   return (
     <div className="border-[1px] rounded border-white overflow-hidden font-medium w-fit">
       <button
+        type="button"
         className={`${
           selected === "individual" ? "text-green-600" : "text-white"
         } text-sm px-3 py-1.5 transition-colors duration-[750ms] relative`}
@@ -193,6 +162,7 @@ const FormSelect: React.FC<FormSelectProps> = ({ selected, setSelected }) => {
         )}
       </button>
       <button
+        type="button"
         className={`${
           selected === "company" ? "text-indigo-600" : "text-white"
         } text-sm px-3 py-1.5 transition-colors duration-[750ms] relative`}
