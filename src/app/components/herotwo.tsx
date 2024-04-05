@@ -16,7 +16,12 @@ const ShuffleHero = () => {
           On a mission to achieve excellence everyday in all we do leveraging on
           technology and partnerships.
         </p>
-        <button className="bg-green-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95">
+        <button
+          onClick={() => {
+            window.location.href = "../login";
+          }}
+          className="bg-green-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95"
+        >
           Explore
         </button>
       </div>

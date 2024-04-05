@@ -7,12 +7,12 @@ export const HoverImageLinks = () => {
   return (
     <section className="bg-neutral-950 p-4 md:p-8">
       <div className="mx-auto max-w-5xl">
-        <Link
+        {/* <Link
           heading="Social"
           subheading="Follow us on X"
           imgSrc="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026"
           href="https://twitter.com/shakespay"
-        />
+        /> */}
         <Link
           heading="Contact"
           subheading="Have any questions?"
@@ -25,12 +25,12 @@ export const HoverImageLinks = () => {
           imgSrc="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026"
           href="../FAQ"
         />
-        <Link
+        {/* <Link
           heading="Legal"
           subheading="Read our privacy policy, terms & conditions"
           imgSrc="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=026"
           href="https://www.iubenda.com/privacy-policy/92925868"
-        />
+        /> */}
       </div>
     </section>
   );

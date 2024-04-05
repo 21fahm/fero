@@ -74,9 +74,9 @@ const MobileMenu: React.FC<{ menuOpen: boolean }> = ({ menuOpen }) => {
     >
       <div className="flex items-center justify-between px-4 pb-4">
         <div className="flex items-center gap-4">
-          <TextLink text="Store" destination="" />
-          <TextLink text="Developers" destination="" />
-          <TextLink text="Pricing" destination="" />
+          {/* <TextLink text="Store" destination="" /> */}
+          {/* <TextLink text="Developers" destination="" /> */}
+          {/* <TextLink text="Pricing" destination="" /> */}
           <TextLink text="FAQ" destination="../FAQ" />
           <TextLink text="Contact" destination="../contact" />
         </div>
@@ -87,9 +87,9 @@ const MobileMenu: React.FC<{ menuOpen: boolean }> = ({ menuOpen }) => {
 
 const Links: React.FC = () => (
   <div className="hidden items-center gap-2 md:flex">
-    <GlassLink text="Store" destination="" />
-    <GlassLink text="Developers" destination="" />
-    <GlassLink text="Pricing" destination="" />
+    {/* <GlassLink text="Store" destination="" /> */}
+    {/* <GlassLink text="Developers" destination="" /> */}
+    {/* <GlassLink text="Pricing" destination="" /> */}
   </div>
 );
 
@@ -124,7 +124,12 @@ const Buttons: React.FC<{
         <GlassLink text="Contact" destination="../contact" />
       </div>
 
-      <button className="relative scale-100 overflow-hidden rounded-lg bg-gradient-to-br from-green-600 from-40% to-green-400 px-4 py-2 font-medium text-white transition-transform hover:scale-105 active:scale-95">
+      <button
+        onClick={() => {
+          window.location.href = "../login";
+        }}
+        className="relative scale-100 overflow-hidden rounded-lg bg-gradient-to-br from-green-600 from-40% to-green-400 px-4 py-2 font-medium text-white transition-transform hover:scale-105 active:scale-95"
+      >
         Explore
       </button>
 
